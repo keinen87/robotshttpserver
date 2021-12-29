@@ -41,12 +41,6 @@ class RequestHandler(BaseHTTPRequestHandler):
         length = int(content_length) if content_length else 0
         signal = self.rfile.read(length)
         fields = parse_qs(signal.decode("utf-8"))
-        # print(fields)
-        # print("Content Length:", length)
-        # print("Request headers:", request_headers)
-        # print("Request payload:", signal)
-        # print("<----- Request End -----\n")
-        # {'msg': ['.--.----....-..------.-..---..--...'], 'muz': ['True']}
         if not str2bool(fields['muz'][0]):
             self.send_response(406)
         if fields['msg'][0] in FIRST_LAW_COMMANDS:
