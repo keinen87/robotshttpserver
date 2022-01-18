@@ -10,7 +10,7 @@ RUN apt-get install -y python3
 
 RUN mkdir /httpserver
 COPY httpserver.py /httpserver/httpserver.py
-COPY *.json /httpserver/*.json
+COPY *.json /httpserver/
 
 # Needed to support utf-8 symbols in stdout
 ENV LC_ALL en_US.UTF-8
