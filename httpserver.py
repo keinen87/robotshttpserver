@@ -1,17 +1,10 @@
 #!/usr/bin/env python
 # Reflects the requests from HTTP methods GET, POST, PUT, and DELETE
 # Written by Nathan Hamiel (2010)
-
+import json
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from optparse import OptionParser
 from urllib.parse import urlparse, parse_qs
-
-FIRST_LAW_COMMANDS = [
-    '---...-..---.--.-.-|.--|---.--..-...-.---...-..'
-]
-SECOND_LAW_COMMANDS = [
-    '-...-...-.-.|.....-...-.'
-]
 
 
 class RequestHandler(BaseHTTPRequestHandler):
@@ -30,7 +23,8 @@ class RequestHandler(BaseHTTPRequestHandler):
         self.end_headers()
         
     def do_POST(self):
-        
+        first_law_commands = get_commands('first_law_commands.json')
+        second_law_commands = get_commands('second_law_commands.json')
         request_path = self.path
         
         print("\n----- Request Start ----->\n")
@@ -43,9 +37,9 @@ class RequestHandler(BaseHTTPRequestHandler):
         fields = parse_qs(signal.decode("utf-8"))
         if not str2bool(fields['muz'][0]):
             self.send_response(406)
-        if fields['msg'][0] in FIRST_LAW_COMMANDS:
+        if fields['msg'][0] in first_law_commands:
             self.send_response(200)
-        elif fields['msg'][0] in SECOND_LAW_COMMANDS:
+        elif fields['msg'][0] in second_law_commands:
             self.send_response(501)
         else:
             self.send_response(418)    
@@ -56,6 +50,11 @@ class RequestHandler(BaseHTTPRequestHandler):
 
 def str2bool(request):
     return request.lower() in ("true")
+
+def get_commands(file_path):
+    with open(file_path, 'r', encoding='utf-8') as file:
+        content = file.read()
+    return json.loads(content)
 
 def main():
     port = 8080
