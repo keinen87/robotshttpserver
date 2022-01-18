@@ -55,7 +55,7 @@ class RequestHandler(BaseHTTPRequestHandler):
     do_DELETE = do_GET
 
 def str2bool(request):
-    return request.lower() in ("True")
+    return request.lower() in ("true")
 
 def main():
     port = 8080
