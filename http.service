@@ -1,0 +1,17 @@
+[Unit]
+Description=httpserver service
+After=docker.service
+BindsTo=docker.service
+ReloadPropagatedFrom=docker.service
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=root
+ExecStart=/usr/bin/docker container run --name httpserver -v /opt/robotshttpserver:/httpserver -p 8080:8080 httpserver_httpserver
+ExecStop=/usr/bin/docker rm -f httpserver
+
+[Install]
+WantedBy=multi-user.target
