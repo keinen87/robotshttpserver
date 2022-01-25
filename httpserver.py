@@ -49,7 +49,7 @@ class RequestHandler(BaseHTTPRequestHandler):
     do_DELETE = do_GET
 
 def str2bool(request):
-    return request.lower() in ("true")
+    return request.lower() in ("true",)
 
 def get_commands(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
